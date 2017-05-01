@@ -25,13 +25,6 @@ RUN apt-get -y -t jessie-backports install golang-go  && \
     echo "export GOPATH=/usr/src/spouse" >> ~/.bashrc && \
     mkdir /usr/src/spouse
 
-# Install Fleet
-RUN cd /usr/src/ && \
-    GOPATH=/usr/src/spouse go get golang.org/x/tools/cmd/cover && \
-    git clone https://github.com/coreos/fleet.git -b v0.13.0 && cd fleet && \
-    ./build && \
-    ln -s /usr/src/fleet/bin/* /usr/bin/
-
 # Install Etcd
 RUN cd /usr/src/ && git clone https://github.com/coreos/etcd.git -b release-2.3 && \
     cd /usr/src/etcd && \
