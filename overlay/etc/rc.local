@@ -65,6 +65,7 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     
     sed -i 's/$KEY/'$APIKEY'/g' /etc/systemd/system/update-firewall.service
     sed -i 's/$TAG/discover:'${DISCOVER//\//\\/}'/g' /etc/systemd/system/update-firewall.service
+    sed -i's/$PUBIP/'$SCWPUBLIC'/g' /etc/systemd/system/dispatch.service
     touch /etc/scw-int-done-setup
     systemctl enable etcd && systemctl enable flannel && systemctl enable fleet
     reboot

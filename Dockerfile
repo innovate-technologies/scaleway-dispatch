@@ -41,9 +41,26 @@ RUN export GOPATH=/usr/src/spouse && \
     make dist/flanneld && \
     ln -s /usr/src/spouse/src/github.com/coreos/flannel/dist/flanneld /usr/bin/flanneld
 
+
+
 # Installing UFW
 RUN apt-get -y install ufw && \
     ufw default allow incoming
+
+# Installing Dispatch
+RUN case "${ARCH}" in                                                                                 \
+    armv7l|armhf|arm)                                                                                 \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.1/dispatchd-linux-arm > /usr/bin/dispatchd && \
+      chmod +x /usr/bin/dispatchd                                                                   \
+      ;;                                                                                              \
+    amd64|x86_64)                                                                                     \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.1/dispatchd-linux-amd64 > /usr/bin/dispatchd && \
+      chmod +x /usr/bin/dispatchd                                                                   \
+      ;;                                                                                              \
+    *)                                                                                                \
+      echo "Unhandled architecture: ${ARCH}."; exit 1;                                                \
+      ;;                                                                                              \
+    esac                                                                                              
 
 COPY ./overlay/ /
 
