@@ -1,11 +1,11 @@
 ## -*- docker-image-name: "scaleway/ubuntu-coreos:latest" -*-
-FROM meyskens/docker-debian:amd64-latest
+FROM scaleway/debian:amd64-stretch
 # following 'FROM' lines are used dynamically thanks do the image-builder
 # which dynamically update the Dockerfile if needed.
-#FROM meyskens/docker-debian:armhf-latest	# arch=armv7l
-#FROM meyskens/docker-debian:arm64-latest	# arch=arm64
-#FROM meyskens/docker-debian:i386-latest		# arch=i386
-#FROM meyskens/docker-debian:mips-latest		# arch=mips
+#FROM scaleway/debian:armhf-stretch	# arch=armv7l
+#FROM scaleway/debian:arm64-stretch	# arch=arm64
+#FROM scaleway/debian:i386-stretch		# arch=i386
+#FROM scaleway/debian:mips-stretch		# arch=mips
 MAINTAINER Maartje Eyskens <maartje@innovatete.ch> (@meyskens)
 
 
@@ -19,6 +19,8 @@ RUN apt-get -q update                   \
  && apt-get --force-yes install -y -q build-essential tar \
  && apt-get clean
 
+# Install Docker
+RUN curl https://get.docker.com | bash
 
 # Install Go
 RUN apt-get -y -t jessie-backports install golang-go  && \
