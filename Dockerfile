@@ -45,11 +45,6 @@ RUN export GOPATH=/usr/local/go && \
     ln -s /usr/local/go/src/github.com/coreos/flannel/dist/flanneld /usr/bin/flanneld
 
 
-
-# Installing UFW
-RUN apt-get -y install ufw && \
-    ufw default allow incoming
-
 # Installing Dispatch
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
