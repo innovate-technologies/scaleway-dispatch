@@ -22,9 +22,8 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     SCWPUBLIC=$(curl http://v4.myip.ninja)
     MODEL=$(oc-metadata --cached COMMERCIAL_TYPE)
     DISCOVER=$(oc-metadata --cached TAGS_0 | sed 's/discover://g')
-    APIKEY=$(oc-metadata --cached TAGS_1 | sed 's/api://g')
-    PROXY=$(oc-metadata --cached TAGS_2 | sed 's/proxy://g')
-    ZONE=$(oc-metadata --cached LOCATION_ZONE_ID)
+    ZONE=$(oc-metadata --cached TAGS_1 | sed 's/zone://g')
+
     echo "private_ipv4="$SCWIP >>/etc/environment
     echo "public_ipv4="$SCWPUBLIC >>/etc/environment
     sed -i 's/$HOST/'$SCWPUBLIC'/g' /etc/systemd/system/etcd.service
@@ -34,28 +33,13 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     else
         sed -i 's/$DISCOVER/_SRV='${DISCOVER//\//\\/}'/g' /etc/systemd/system/etcd.service
     fi
-    if [[ $PROXY == "true" ]]
-    then
-        sed -i 's/$PROXY/on/g' /etc/systemd/system/etcd.service
-        sed -i 's/$PEERURL/http:\/\/127.0.0.1:2380/g' /etc/systemd/system/etcd.service
-        sed -i 's/$PEERADVURL/http:\/\/127.0.0.1:2380/g' /etc/systemd/system/etcd.service
-        sed -i 's/$ADVURL/http:\/\/127.0.0.1:2379/g' /etc/systemd/system/etcd.service
-        sed -i 's/$CLIENTURL/http:\/\/127.0.0.1:2379/g' /etc/systemd/system/etcd.service
-    else
-        sed -i 's/$PROXY/off/g' /etc/systemd/system/etcd.service
-        sed -i 's/$PEERURL/http:\/\/0.0.0.0:2380/g' /etc/systemd/system/etcd.service
-        sed -i 's/$PEERADVURL/http:\/\/'$SCWPUBLIC':2380/g' /etc/systemd/system/etcd.service
-        sed -i 's/$ADVURL/http:\/\/'$SCWPUBLIC':2379/g' /etc/systemd/system/etcd.service
-        sed -i 's/$CLIENTURL/http:\/\/0.0.0.0:2379/g' /etc/systemd/system/etcd.service
-        
-        ufw default allow incoming
-        ufw allow 22
-        ufw --force enable
-        
-        cd /usr/local/update-firewall
-        GOPATH=/usr/src/spouse GOBIN=$GOPATH/bin go get
-        systemctl enable update-firewall
-    fi
+
+    sed -i 's/$PROXY/on/g' /etc/systemd/system/etcd.service
+    sed -i 's/$PEERURL/http:\/\/127.0.0.1:2380/g' /etc/systemd/system/etcd.service
+    sed -i 's/$PEERADVURL/http:\/\/127.0.0.1:2380/g' /etc/systemd/system/etcd.service
+    sed -i 's/$ADVURL/http:\/\/127.0.0.1:2379/g' /etc/systemd/system/etcd.service
+    sed -i 's/$CLIENTURL/http:\/\/127.0.0.1:2379/g' /etc/systemd/system/etcd.service
+
     if [[ $MODEL == "C1" ]]
     then
         sed -i 's/$armsupport/Environment=ETCD_UNSUPPORTED_ARCH=arm/g' /etc/systemd/system/etcd.service
@@ -63,9 +47,8 @@ if [ ! -f /etc/scw-int-done-setup ]; then
         sed -i 's/$armsupport//g' /etc/systemd/system/etcd.service
     fi
     
-    sed -i 's/$KEY/'$APIKEY'/g' /etc/systemd/system/update-firewall.service
-    sed -i 's/$TAG/discover:'${DISCOVER//\//\\/}'/g' /etc/systemd/system/update-firewall.service
     sed -i's/$PUBIP/'$SCWPUBLIC'/g' /etc/systemd/system/dispatch.service
+    ed -i's/$ZONE/'$ZONE'/g' /etc/systemd/system/dispatch.service
     touch /etc/scw-int-done-setup
     systemctl enable etcd && systemctl enable flannel && systemctl enable dispatch
     reboot

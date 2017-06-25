@@ -5,7 +5,7 @@ Requires=etcd.service
 
 [Service]
 # TO DO: change this in the future
-Environment = DISPATCH_ZONE=PROD1
+Environment = DISPATCH_ZONE=$ZONE
 Environment = DISPATCH_PUBLICIP=$PUBIP
 ExecStart = /usr/bin/dispatchd  
 Restart=always
