@@ -22,10 +22,11 @@ RUN apt-get -q update                   \
 # Install Docker
 RUN curl https://get.docker.com | bash
 
-# Install Go
-RUN apt-get -y install golang-go  && \
-    echo "export GOPATH=/usr/src/spouse" >> ~/.bashrc && \
-    mkdir /usr/src/spouse
+#Install golang
+RUN echo "deb http://ppa.launchpad.net/longsleep/golang-backports/ubuntu xenial main" >>/etc/apt/sources.list && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E  && \
+    apt-get update && apt-get install -y golang-1.8 && \
+    ln -s /usr/lib/go-1.8/bin/* /usr/bin/
 
 # Install Etcd
 RUN cd /usr/src/ && git clone https://github.com/coreos/etcd.git -b release-2.3 && \
@@ -35,13 +36,13 @@ RUN cd /usr/src/ && git clone https://github.com/coreos/etcd.git -b release-2.3 
     mkdir /var/lib/etcd
 
 # Install Flannel
-RUN export GOPATH=/usr/src/spouse && \
-    mkdir -p /usr/src/spouse/src/github.com/coreos/ && \
-    cd /usr/src/ && git clone https://github.com/coreos/flannel.git /usr/src/spouse/src/github.com/coreos/flannel && \
-    cd /usr/src/spouse/src/github.com/coreos/flannel && git checkout v0.6.2 && \
+RUN export GOPATH=/usr/local/go && \
+    mkdir -p /usr/local/go/src/github.com/coreos/ && \
+    git clone https://github.com/coreos/flannel.git /usr/local/go/src/github.com/coreos/flannel && \
+    cd /usr/local/go/src/github.com/coreos/flannel && git checkout v0.6.2 && \
     go get && \
     make dist/flanneld && \
-    ln -s /usr/src/spouse/src/github.com/coreos/flannel/dist/flanneld /usr/bin/flanneld
+    ln -s /usr/local/go/src/github.com/coreos/flannel/dist/flanneld /usr/bin/flanneld
 
 
 
