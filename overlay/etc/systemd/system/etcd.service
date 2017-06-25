@@ -7,7 +7,7 @@ After=network.target network-online.target
 Environment=ETCD_DATA_DIR=/var/lib/etcd
 Environment=ETCD_NAME=$HOST
 Environment="ETCD_DISCOVERY$DISCOVER"
-Environment="ETCD_PROXY=$PROXY"
+Environment="ETCD_PROXY=on"
 Environment="ETCD_LISTEN_PEER_URLS=$PEERURL"
 Environment="ETCD_LISTEN_CLIENT_URLS=$CLIENTURL"
 Environment="ETCD_ADVERTISE_CLIENT_URLS=$ADVURL"
