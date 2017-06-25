@@ -23,7 +23,7 @@ RUN apt-get -q update                   \
 RUN curl https://get.docker.com | bash
 
 # Install Go
-RUN apt-get -y -t jessie-backports install golang-go  && \
+RUN apt-get -y install golang-go  && \
     echo "export GOPATH=/usr/src/spouse" >> ~/.bashrc && \
     mkdir /usr/src/spouse
 
