@@ -45,8 +45,8 @@ if [ ! -f /etc/scw-int-done-setup ]; then
         sed -i 's/$armsupport//g' /etc/systemd/system/etcd.service
     fi
     
-    sed -i's/$PUBIP/'$SCWPUBLIC'/g' /etc/systemd/system/dispatch.service
-    ed -i's/$ZONE/'$ZONE'/g' /etc/systemd/system/dispatch.service
+    sed -i's/$PUBIP/'$SCWPUBLIC'/g' /etc/systemd/system/dispatchd.service
+    ed -i's/$ZONE/'$ZONE'/g' /etc/systemd/system/dispatchd.service
     touch /etc/scw-int-done-setup
     systemctl enable etcd && systemctl enable flannel && systemctl enable dispatchd
     reboot
