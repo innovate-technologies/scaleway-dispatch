@@ -64,11 +64,11 @@ RUN case "${ARCH}" in                                                           
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
       curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.4/dispatchctl-linux-arm > /usr/bin/dispatchctl && \
-      chmod +x /usr/bin/dispatchd                                                                   \
+      chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     amd64|x86_64)                                                                                     \
       curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.4/dispatchctl-linux-amd64 > /usr/bin/dispatchctl && \
-      chmod +x /usr/bin/dispatchd                                                                   \
+      chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     *)                                                                                                \
       echo "Unhandled architecture: ${ARCH}."; exit 1;                                                \
