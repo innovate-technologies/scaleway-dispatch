@@ -1,7 +1,7 @@
 ## -*- docker-image-name: "scaleway/ubuntu-coreos:latest" -*-
-FROM scaleway/debian:amd64-stretch
 # following 'FROM' lines are used dynamically thanks do the image-builder
 # which dynamically update the Dockerfile if needed.
+#FROM scaleway/debian:amd64-stretch # arch=amd64
 #FROM scaleway/debian:armhf-stretch	# arch=armv7l
 #FROM scaleway/debian:arm64-stretch	# arch=arm64
 #FROM scaleway/debian:i386-stretch		# arch=i386
@@ -62,7 +62,7 @@ RUN export GOPATH=/usr/local/go && \
 # Installing Dispatch
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchd-linux-arm > /usr/bin/dispatchd && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.5/dispatchd-linux-arm > /usr/bin/dispatchd && \
       chmod +x /usr/bin/dispatchd                                                                   \
       ;;                                                                                              \
     amd64|x86_64)                                                                                     \
