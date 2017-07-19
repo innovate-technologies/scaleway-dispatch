@@ -62,11 +62,11 @@ RUN export GOPATH=/usr/local/go && \
 # Installing Dispatch
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.4/dispatchd-linux-arm > /usr/bin/dispatchd && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.5/dispatchd-linux-arm > /usr/bin/dispatchd && \
       chmod +x /usr/bin/dispatchd                                                                   \
       ;;                                                                                              \
     amd64|x86_64)                                                                                     \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.4/dispatchd-linux-amd64 > /usr/bin/dispatchd && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.5/dispatchd-linux-amd64 > /usr/bin/dispatchd && \
       chmod +x /usr/bin/dispatchd                                                                   \
       ;;                                                                                              \
     *)                                                                                                \
