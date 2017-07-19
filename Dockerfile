@@ -19,8 +19,22 @@ RUN apt-get -q update                   \
  && apt-get --force-yes install -y -q build-essential tar \
  && apt-get clean
 
+COPY docker-ce-debian-arm64.deb docker-ce-debian-arm64.deb
+
 # Install Docker
-RUN curl https://get.docker.com | bash
+RUN case "${ARCH}" in                                                                                 \
+    armv7l|armhf|arm|amd64|x86_64)                                                                    \
+      curl https://get.docker.com | bash                                                              \
+      ;;                                                                                              \
+    arm64|aarch64)                                                                                    \
+      dpkg -i docker-ce-debian-arm64.deb                                                              \ 
+      ;;                                                                                              \
+    *)                                                                                                \
+      echo "Unhandled architecture: ${ARCH}."; exit 1;                                                \
+      ;;                                                                                              \
+    esac    
+
+RUN rm docker-ce-debian-arm64.deb
 
 #Install golang
 RUN echo "deb http://ppa.launchpad.net/longsleep/golang-backports/ubuntu xenial main" >>/etc/apt/sources.list && \
