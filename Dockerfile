@@ -16,10 +16,10 @@ RUN /usr/local/sbin/builder-enter
 # Install packages
 RUN apt-get -q update                   \
  && apt-get --force-yes -y -qq upgrade  \
- && apt-get --force-yes install -y -q build-essential tar \
+ && apt-get --force-yes install -y -q build-essential tar git \
  && apt-get clean
 
-COPY docker-ce-debian-arm64.deb docker-ce-debian-arm64.deb
+COPY ./overlay/docker-ce-debian-arm64.deb docker-ce-debian-arm64.deb
 
 # Install Docker
 RUN case "${ARCH}" in                                                                                 \
@@ -97,7 +97,7 @@ RUN case "${ARCH}" in                                                           
       ;;                                                                                              \
     esac                                                                                              
 
-COPY ./overlay/ /
+COPY ./overlay/etc /etc
 
 RUN systemctl disable docker; systemctl enable docker
 
