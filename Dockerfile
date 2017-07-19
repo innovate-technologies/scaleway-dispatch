@@ -62,12 +62,16 @@ RUN export GOPATH=/usr/local/go && \
 # Installing Dispatch
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.5/dispatchd-linux-arm > /usr/bin/dispatchd && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchd-linux-arm > /usr/bin/dispatchd && \
       chmod +x /usr/bin/dispatchd                                                                   \
       ;;                                                                                              \
     amd64|x86_64)                                                                                     \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.5/dispatchd-linux-amd64 > /usr/bin/dispatchd && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchd-linux-amd64 > /usr/bin/dispatchd && \
       chmod +x /usr/bin/dispatchd                                                                   \
+      ;;     
+    arm64|aarch64)
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchd-linux-arm64 > /usr/bin/dispatchd && \
+      chmod +x /usr/bin/dispatchd                                                                     \
       ;;                                                                                              \
     *)                                                                                                \
       echo "Unhandled architecture: ${ARCH}."; exit 1;                                                \
@@ -77,11 +81,15 @@ RUN case "${ARCH}" in                                                           
 # Installing Dispatchctl
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.4/dispatchctl-linux-arm > /usr/bin/dispatchctl && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchctl-linux-arm > /usr/bin/dispatchctl && \
       chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     amd64|x86_64)                                                                                     \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.4/dispatchctl-linux-amd64 > /usr/bin/dispatchctl && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchctl-linux-amd64 > /usr/bin/dispatchctl && \
+      chmod +x /usr/bin/dispatchctl                                                                   \
+      ;;                                                                                              \
+    arm64|aarch64)
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchctl-linux-arm64 > /usr/bin/dispatchctl && \
       chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     *)                                                                                                \
