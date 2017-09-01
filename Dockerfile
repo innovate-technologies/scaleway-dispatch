@@ -37,17 +37,18 @@ RUN case "${ARCH}" in                                                           
 RUN rm docker-ce-debian-arm64.deb
 
 #Install golang
-RUN echo "deb http://ppa.launchpad.net/longsleep/golang-backports/ubuntu xenial main" >>/etc/apt/sources.list && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E  && \
-    apt-get update && apt-get install -y golang-1.8 && \
-    ln -s /usr/lib/go-1.8/bin/* /usr/bin/
+RUN apt-get update && apt-get install -y wget tar git
+RUN wget -O -  "https://golang.org/dl/go1.9.linux-${ARCH}.tar.gz" | tar xzC /usr/local
+ENV GOPATH /go
+ENV PATH $PATH:/usr/local/go/bin:$GOPATH/bin
 
 # Install Etcd
-RUN cd /usr/src/ && git clone https://github.com/coreos/etcd.git -b release-2.3 && \
-    cd /usr/src/etcd && \
+RUN wget -O - https://github.com/coreos/etcd/releases/download/v3.2.6/v3.2.6.tar.gz | tar -xz &&\
+    cd etcd-* &&\
     ./build && \
-    ln -s /usr/src/etcd/bin/* /usr/bin/ && \
-    mkdir /var/lib/etcd
+    mv ./bin/* /usr/bin/ &&\
+    rm -fr etcd-* 
+
 
 # Install Flannel
 RUN export GOPATH=/usr/local/go && \
@@ -81,15 +82,15 @@ RUN case "${ARCH}" in                                                           
 # Installing Dispatchctl
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchctl-linux-arm > /usr/bin/dispatchctl && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchctl-linux-arm > /usr/bin/dispatchctl && \
       chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     amd64|x86_64)                                                                                     \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchctl-linux-amd64 > /usr/bin/dispatchctl && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchctl-linux-amd64 > /usr/bin/dispatchctl && \
       chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     arm64|aarch64)                                                                                    \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.6/dispatchctl-linux-arm64 > /usr/bin/dispatchctl && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchctl-linux-arm64 > /usr/bin/dispatchctl && \
       chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     *)                                                                                                \
