@@ -27,12 +27,8 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     echo "private_ipv4="$SCWIP >>/etc/environment
     echo "public_ipv4="$SCWPUBLIC >>/etc/environment
     sed -i 's/$HOST/'$SCWPUBLIC'/g' /etc/systemd/system/etcd.service
-    if [[ $DISCOVER == *"http"* ]]
-    then
-        sed -i 's/$DISCOVER/='${DISCOVER//\//\\/}'/g' /etc/systemd/system/etcd.service
-    else
-        sed -i 's/$DISCOVER/_SRV='${DISCOVER//\//\\/}'/g' /etc/systemd/system/etcd.service
-    fi
+    sed -i 's/$DISCOVER/'${DISCOVER//\//\\/}'/g' /etc/systemd/system/etcd.service
+
 
     if [[ $MODEL == "C1" ]]
     then
