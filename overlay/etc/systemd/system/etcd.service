@@ -4,15 +4,8 @@ Wants=network.target network-online.target
 After=network.target network-online.target
 
 [Service]
-Environment=ETCD_DATA_DIR=/var/lib/etcd
-Environment=ETCD_NAME=$HOST
-Environment="ETCD_DISCOVERY$DISCOVER"
-Environment="ETCD_LISTEN_PEER_URLS=http://127.0.0.1:2380"
-Environment="ETCD_LISTEN_CLIENT_URLS=http://127.0.0.1:2379"
-Environment="ETCD_ADVERTISE_CLIENT_URLS=http://127.0.0.1:2379"
-Environment="ETCD_INITIAL_ADVERTISE_PEER_URLS=http://127.0.0.1:2380"
 $armsupport
-ExecStart = /bin/bash -c "etcd gateway --discovery-srv=$DISCOVER"
+ExecStart = /bin/bash -c "etcd gateway start --discovery-srv=$DISCOVER –listen-addr 127.0.0.1:2379"
 Restart=always
 RestartSec=10s
 
