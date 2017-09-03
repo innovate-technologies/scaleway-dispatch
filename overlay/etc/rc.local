@@ -20,10 +20,10 @@ if [ ! -f /etc/scw-int-done-setup ]; then
 
     SCWIP=$(hostname  -I | awk '{print $1}')
     SCWPUBLIC=$(curl http://v4.myip.ninja)
-    MODEL=$(oc-metadata --cached COMMERCIAL_TYPE)
-    DISCOVER=$(oc-metadata --cached TAGS_0 | sed 's/discover://g')
-    ZONE=$(oc-metadata --cached TAGS_1 | sed 's/zone://g')
-    CAURL=$(oc-metadata --cached TAGS_1 | sed 's/ca://g')
+    MODEL=$(scw-metadata --cached COMMERCIAL_TYPE)
+    DISCOVER=$(scw-metadata --cached TAGS_0 | sed 's/discover://g')
+    ZONE=$(scw-metadata --cached TAGS_1 | sed 's/zone://g')
+    CAURL=$(scw-metadata --cached TAGS_1 | sed 's/ca://g')
 
     mkdir -p /etc/ssl/etcd/
     wget -O /etc/ssl/etcd/ca.pem $CAURL
