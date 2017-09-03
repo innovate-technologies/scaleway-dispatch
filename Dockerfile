@@ -12,6 +12,11 @@ MAINTAINER Maartje Eyskens <maartje@innovatete.ch> (@meyskens)
 # Prepare rootfs for image-builder
 RUN /usr/local/sbin/builder-enter
 
+ARG dispatch_version=0.0.7
+ARG etcd_version=v3.2.6
+ARG go_version=1.9
+ARG flannel_version=v0.6.2
+
 
 # Install packages
 RUN apt-get -q update                   \
@@ -38,12 +43,12 @@ RUN rm docker-ce-debian-arm64.deb
 
 #Install golang
 RUN apt-get update && apt-get install -y wget tar git
-RUN wget -O -  "https://golang.org/dl/go1.9.linux-${ARCH}.tar.gz" | tar xzC /usr/local
+RUN wget -O -  "https://golang.org/dl/go${go_version}.linux-${ARCH}.tar.gz" | tar xzC /usr/local
 ENV GOPATH /go
 ENV PATH $PATH:/usr/local/go/bin:$GOPATH/bin
 
 # Install Etcd
-RUN wget -O - https://github.com/coreos/etcd/releases/download/v3.2.6/v3.2.6.tar.gz | tar -xz &&\
+RUN wget -O - https://github.com/coreos/etcd/releases/download/${etcd_version}/${etcd_version}.tar.gz | tar -xz &&\
     cd etcd-* &&\
     ./build && \
     mv ./bin/* /usr/bin/ &&\
@@ -54,7 +59,7 @@ RUN wget -O - https://github.com/coreos/etcd/releases/download/v3.2.6/v3.2.6.tar
 RUN export GOPATH=/usr/local/go && \
     mkdir -p /usr/local/go/src/github.com/coreos/ && \
     git clone https://github.com/coreos/flannel.git /usr/local/go/src/github.com/coreos/flannel && \
-    cd /usr/local/go/src/github.com/coreos/flannel && git checkout v0.6.2 && \
+    cd /usr/local/go/src/github.com/coreos/flannel && git checkout ${flannel_version} && \
     go get && \
     make dist/flanneld && \
     ln -s /usr/local/go/src/github.com/coreos/flannel/dist/flanneld /usr/bin/flanneld
@@ -63,15 +68,15 @@ RUN export GOPATH=/usr/local/go && \
 # Installing Dispatch
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchd-linux-arm > /usr/bin/dispatchd && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/${dispatch_version}/dispatchd-linux-arm > /usr/bin/dispatchd && \
       chmod +x /usr/bin/dispatchd                                                                     \
       ;;                                                                                              \
     amd64|x86_64)                                                                                     \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchd-linux-amd64 > /usr/bin/dispatchd && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/${dispatch_version}/dispatchd-linux-amd64 > /usr/bin/dispatchd && \
       chmod +x /usr/bin/dispatchd                                                                     \
       ;;                                                                                              \
     arm64|aarch64)                                                                                    \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchd-linux-arm64 > /usr/bin/dispatchd && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/${dispatch_version}/dispatchd-linux-arm64 > /usr/bin/dispatchd && \
       chmod +x /usr/bin/dispatchd                                                                     \
       ;;                                                                                              \
     *)                                                                                                \
@@ -82,15 +87,15 @@ RUN case "${ARCH}" in                                                           
 # Installing Dispatchctl
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchctl-linux-arm > /usr/bin/dispatchctl && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/${dispatch_version}/dispatchctl-linux-arm > /usr/bin/dispatchctl && \
       chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     amd64|x86_64)                                                                                     \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchctl-linux-amd64 > /usr/bin/dispatchctl && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/${dispatch_version}/dispatchctl-linux-amd64 > /usr/bin/dispatchctl && \
       chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     arm64|aarch64)                                                                                    \
-      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/0.0.7/dispatchctl-linux-arm64 > /usr/bin/dispatchctl && \
+      curl -Ls https://github.com/innovate-technologies/Dispatch/releases/download/${dispatch_version}/dispatchctl-linux-arm64 > /usr/bin/dispatchctl && \
       chmod +x /usr/bin/dispatchctl                                                                   \
       ;;                                                                                              \
     *)                                                                                                \
