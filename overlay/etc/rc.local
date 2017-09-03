@@ -23,6 +23,10 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     MODEL=$(oc-metadata --cached COMMERCIAL_TYPE)
     DISCOVER=$(oc-metadata --cached TAGS_0 | sed 's/discover://g')
     ZONE=$(oc-metadata --cached TAGS_1 | sed 's/zone://g')
+    CAURL=$(oc-metadata --cached TAGS_1 | sed 's/ca://g')
+
+    mkdir -p /etc/ssl/etcd/
+    wget -O /etc/ssl/etcd/ca.pem $CAURL
 
     echo "private_ipv4="$SCWIP >>/etc/environment
     echo "public_ipv4="$SCWPUBLIC >>/etc/environment
