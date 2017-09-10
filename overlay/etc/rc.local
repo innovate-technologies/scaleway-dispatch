@@ -19,7 +19,7 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     echo "/swap none swap defaults 0 0" >>/etc/fstab
 
     SCWIP=$(hostname  -I | awk '{print $1}')
-    SCWPUBLIC=$(curl http://v4.myip.ninja)
+    SCWPUBLIC=$(curl https://v4.myip.ninja)
     MODEL=$(scw-metadata --cached COMMERCIAL_TYPE)
     DISCOVER=$(scw-metadata --cached TAGS_0 | sed 's/discover://g')
     ZONE=$(scw-metadata --cached TAGS_1 | sed 's/zone://g')
