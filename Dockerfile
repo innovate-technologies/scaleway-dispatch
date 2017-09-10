@@ -12,7 +12,7 @@ MAINTAINER Maartje Eyskens <maartje@innovatete.ch> (@meyskens)
 # Prepare rootfs for image-builder
 RUN /usr/local/sbin/builder-enter
 
-ARG dispatch_version=0.0.7
+ARG dispatch_version=0.0.8-experimental
 ARG etcd_version=v3.2.6
 ARG go_version=1.9
 ARG flannel_version=v0.6.2
