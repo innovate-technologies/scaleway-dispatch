@@ -23,7 +23,9 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     MODEL=$(scw-metadata --cached COMMERCIAL_TYPE)
     DISCOVER=$(scw-metadata --cached TAGS_0 | sed 's/discover://g')
     ZONE=$(scw-metadata --cached TAGS_1 | sed 's/zone://g')
-    CAURL=$(scw-metadata --cached TAGS_1 | sed 's/ca://g')
+    CAURL=$(scw-metadata --cached TAGS_2 | sed 's/ca://g')
+    ETCDATH=$(scw-metadata --cached TAGS_3 | sed 's/auth://g')
+    IFS=':' read -r -a ETCDAUTHARRAY <<< "$ETCDATH"
 
     mkdir -p /etc/ssl/etcd/
     wget -O /etc/ssl/etcd/ca.pem $CAURL
@@ -46,6 +48,9 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     
     sed -i 's/$PUBIP/'$SCWPUBLIC'/g' /etc/systemd/system/dispatchd.service
     sed -i 's/$ZONE/'$ZONE'/g' /etc/systemd/system/dispatchd.service
+    sed -i 's/$USER/'${ETCDAUTHARRAY[0]}'/g' /etc/systemd/system/dispatchd.service
+    sed -i 's/$PASS/'${ETCDAUTHARRAY[1]}'/g' /etc/systemd/system/dispatchd.service
+
     touch /etc/scw-int-done-setup
     systemctl enable etcd && systemctl enable flannel && systemctl enable dispatchd
     reboot

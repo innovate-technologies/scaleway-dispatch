@@ -7,6 +7,9 @@ Requires=etcd.service
 # TO DO: change this in the future
 Environment = DISPATCH_ZONE=$ZONE
 Environment = DISPATCH_PUBLICIP=$PUBIP
+Environment = DISPATCH_ETCD_CA=/etc/ssl/etcd/ca.pem
+Environment = DISPATCH_ETCD_USERNAME=$USER
+Environment = DISPATCH_ETCD_PASSWORD=$PASS
 ExecStart = /usr/bin/dispatchd  
 Restart=always
 RestartSec=10s
