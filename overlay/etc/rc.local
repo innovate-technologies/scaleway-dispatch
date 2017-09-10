@@ -24,8 +24,8 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     DISCOVER=$(scw-metadata --cached TAGS_0 | sed 's/discover://g')
     ZONE=$(scw-metadata --cached TAGS_1 | sed 's/zone://g')
     CAURL=$(scw-metadata --cached TAGS_2 | sed 's/ca://g')
-    ETCDATH=$(scw-metadata --cached TAGS_3 | sed 's/auth://g')
-    IFS=':' read -r -a ETCDAUTHARRAY <<< "$ETCDATH"
+    ETCDAUTH=$(scw-metadata --cached TAGS_3 | sed 's/auth://g')
+    IFS=':' read -r -a ETCDAUTHARRAY <<< "$ETCDAUTH"
 
     mkdir -p /etc/ssl/etcd/
     wget -O /etc/ssl/etcd/ca.pem $CAURL
