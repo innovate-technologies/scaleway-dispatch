@@ -15,7 +15,7 @@ RUN /usr/local/sbin/builder-enter
 ARG dispatch_version=0.0.8-experimental
 ARG etcd_version=v3.2.6
 ARG go_version=1.9
-ARG flannel_version=v0.6.2
+ARG flannel_version=v0.8.0
 
 
 # Install packages
