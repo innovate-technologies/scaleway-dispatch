@@ -5,6 +5,7 @@ Requires=etcd.service
 
 [Service]
 # TO DO: change this in the future
+Environment = DISPATCH_ETCDADDRESS=https://localhost:2379
 Environment = DISPATCH_ZONE=$ZONE
 Environment = DISPATCH_PUBLICIP=$PUBIP
 Environment = DISPATCH_ETCD_CA=/etc/ssl/etcd/ca.pem
