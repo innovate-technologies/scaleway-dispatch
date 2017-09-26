@@ -5,8 +5,7 @@ Requires=etcd.service
 
 [Service]
 Type=simple
-ExecStartPre-=/bin/bash -c "etcdctl -u $USER:$PASS set /coreos.com/network/config '{\"Network\":\"172.17.0.0/16\"}'"
-ExecStart=/bin/bash -c "/usr/bin/flanneld --etcd-endpoints=https://localhost:2379 --etcd-cafile="/etc/ssl/etcd/ca.pem" --etcd-username $USER --etcd-password $PASS -ip-masq=true -iface=eth0 --public-ip=$(curl myip.ninja)"
+ExecStart=/bin/bash -c "/usr/bin/flanneld -etcd-endpoints=https://localhost:2379 -etcd-cafile="/etc/ssl/etcd/ca.pem" -etcd-username=$USER -etcd-password=$PASS -ip-masq=true -iface=eth0 --public-ip=$(curl myip.ninja)"
 Restart=on-failure
 
 [Install]
