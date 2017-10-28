@@ -5,7 +5,7 @@ After=network.target network-online.target
 
 [Service]
 $armsupport
-ExecStart = /bin/bash -c "etcd gateway start --discovery-srv=$DISCOVER --listen-addr 127.0.0.1:2379 --trusted-ca-file /etc/ssl/etcd/ca.pem"
+ExecStart = /bin/bash -c "etcd gateway start --discovery-srv=$DISCOVER --listen-addr [::1]:2379 --trusted-ca-file /etc/ssl/etcd/ca.pem"
 Restart=always
 RestartSec=10s
 Type=notify
