@@ -54,6 +54,9 @@ if [ ! -f /etc/scw-int-done-setup ]; then
     sed -i 's/$USER/'${ETCDAUTHARRAY[0]}'/g' /etc/systemd/system/flannel.service
     sed -i 's/$PASS/'${ETCDAUTHARRAY[1]}'/g' /etc/systemd/system/flannel.service
 
+    sed -i 's/$USER/'${ETCDAUTHARRAY[0]}'/g' /etc/profile.d/etcd.sh
+    sed -i 's/$PASS/'${ETCDAUTHARRAY[1]}'/g' /etc/profile.d/etcd.sh
+
     touch /etc/scw-int-done-setup
     systemctl enable etcd && systemctl enable flannel && systemctl enable dispatchd
     reboot
