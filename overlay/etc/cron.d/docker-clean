@@ -1,0 +1,1 @@
+0 * * * * root docker images | awk '{print $3}' | xargs -n1 docker rmi
