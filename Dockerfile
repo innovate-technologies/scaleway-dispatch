@@ -13,7 +13,7 @@ MAINTAINER Maartje Eyskens <maartje@innovatete.ch> (@meyskens)
 RUN /usr/local/sbin/builder-enter
 
 ARG dispatch_version=0.0.9
-ARG etcd_version=v3.11
+ARG etcd_version=v3.2.11
 ARG go_version=1.9
 ARG flannel_version=v0.8.0
 
