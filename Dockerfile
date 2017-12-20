@@ -21,7 +21,7 @@ ARG flannel_version=v0.8.0
 # Install packages
 RUN apt-get -q update                   \
  && apt-get --force-yes -y -qq upgrade  \
- && apt-get --force-yes install -y -q build-essential tar git \
+ && apt-get --force-yes install -y -q build-essential tar git unattended-upgrades apt-listchanges \
  && apt-get clean
 
 COPY ./overlay/docker-ce-debian-arm64.deb docker-ce-debian-arm64.deb
