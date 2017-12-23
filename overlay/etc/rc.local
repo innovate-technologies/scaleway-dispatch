@@ -64,4 +64,10 @@ fi
 
 [ "$(lscpu | grep Architecture | awk '{print $2}')" == "x86_64" ] && modprobe aesni-intel || true 
 
+ip6tables -A FORWARD -o docker0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+ip6tables -A FORWARD -i docker0 ! -o docker0 -j ACCEPT
+ip6tables -A FORWARD -i docker0 -o docker0 -j ACCEPT
+ip6tables -t nat  -A POSTROUTING -s fd00::/64 ! -o docker0 -j MASQUERADE
+ip6tables -t nat  -A POSTROUTING -s fd00::/64 -j MASQUERADE
+
 exit 0
