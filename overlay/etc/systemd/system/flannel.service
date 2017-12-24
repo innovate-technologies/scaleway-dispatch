@@ -5,7 +5,7 @@ Requires=etcd.service
 
 [Service]
 Type=simple
-ExecStart=/bin/bash -c "/usr/bin/flanneld -etcd-endpoints=https://localhost:2379 -etcd-cafile="/etc/ssl/etcd/ca.pem" -etcd-username=$USER -etcd-password=$PASS -ip-masq=true -iface=eth0 --public-ip=$(curl https://dual.myip.ninja)"
+ExecStart=/bin/bash -c "/usr/bin/flanneld -etcd-endpoints=https://localhost:2379 -etcd-cafile="/etc/ssl/etcd/ca.pem" -etcd-username=$USER -etcd-password=$PASS -ip-masq=true -iface=eth0"
 Restart=on-failure
 
 [Install]
