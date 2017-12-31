@@ -15,6 +15,7 @@ LimitNOFILE=1048576
 LimitNPROC=1048576
 LimitCORE=infinity
 Restart=always
+RestartSec=10s
 
 [Install]
 WantedBy=multi-user.target
