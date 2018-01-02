@@ -12,7 +12,6 @@ before_install:
 script:
 - go get -u -v github.com/scaleway/scaleway-cli/cmd/scw
 - go install github.com/scaleway/scaleway-cli/cmd/scw
-- ls $GOPATH/bin/
 - if [[ $TRAVIS_TAG == "" ]]; 
   then
     $GOPATH/bin/scw create --commercial-type=arm64-4gb -v 50GB --name="travis-$TRAVIS_JOB_ID" image-build;
