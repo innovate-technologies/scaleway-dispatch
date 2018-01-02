@@ -15,7 +15,7 @@ script:
     $GOPATH/bin/scw stop travis-$TRAVIS_JOB_ID;
     $GOPATH/bin/scw wait travis-$TRAVIS_JOB_ID;
     $GOPATH/bin/scw commit -v 1 travis-$TRAVIS_JOB_ID dispatch-$TRAVIS_TAG-$TRAVIS_JOB_ID;
-    rm -f $HOME/.scw-cache.db;
+    $GOPATH/bin/scw _flush-cache;
     export VOLUME1 = $($GOPATH/bin/scw -V -D inspect -f '{{with index .Volumes "0"}}{{.Identifier}}{{end}}' travis-$TRAVIS_JOB_ID);
     export VOLUME2 = $($GOPATH/bin/scw  -V -D inspect -f '{{with index .Volumes "1"}}{{.Identifier}}{{end}}' travis-$TRAVIS_JOB_ID);
     $GOPATH/bin/scw rm travis-$TRAVIS_JOB_ID ;
