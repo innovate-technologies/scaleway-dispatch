@@ -13,7 +13,7 @@ script:
     $GOPATH/bin/scw create --commercial-type=arm64-4gb -v 50GB --name="travis-$TRAVIS_JOB_ID" image-build &&\
     $GOPATH/bin/scw start -w travis-$TRAVIS_JOB_ID &&\
     $GOPATH/bin/scw stop travis-$TRAVIS_JOB_ID &&\
-    $GOPATH/bin/scw wait server &&\
+    $GOPATH/bin/scw wait travis-$TRAVIS_JOB_ID &&\
     $GOPATH/bin/scw commit -v 1 travis-$TRAVIS_JOB_ID &&\
     VOLUME1 = $($GOPATH/bin/scw inspect -f '{{with index .Volumes "0"}}{{.Identifier}}{{end}}' travis-$TRAVIS_JOB_ID) &&\
     VOLUME2 = $($GOPATH/bin/scw inspect -f '{{with index .Volumes "0"}}{{.Identifier}}{{end}}' travis-$TRAVIS_JOB_ID) &&\
