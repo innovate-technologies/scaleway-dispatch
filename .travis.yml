@@ -3,11 +3,10 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_e2786c88889f_key -iv $encrypted_e2786c88889f_iv
   -in .scwrc.enc -out $HOME/.scwrc -d
 - chmod 600 $HOME/.scwrc
-install:
-- go get -u github.com/scaleway/scaleway-cli/cmd/scw
-- go install github.com/scaleway/scaleway-cli/cmd/scw
 
 script:
+- go get -u github.com/scaleway/scaleway-cli/cmd/scw
+- go install github.com/scaleway/scaleway-cli/cmd/scw
 - if [[ $TRAVIS_TAG == "" ]]; 
   then
     $GOPATH/bin/scw create --commercial-type=arm64-4gb -v 50GB --name="travis-$TRAVIS_JOB_ID" image-build &&\
