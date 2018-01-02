@@ -12,12 +12,12 @@ script:
   then
     $GOPATH/bin/scw create --commercial-type=arm64-4gb -v 50GB --name="travis-$TRAVIS_JOB_ID" image-build;
     $GOPATH/bin/scw start -w travis-$TRAVIS_JOB_ID;
-    $GOPATH/bin/scw stop travis-$TRAVIS_JOB_ID;
-    $GOPATH/bin/scw wait travis-$TRAVIS_JOB_ID;
-    $GOPATH/bin/scw commit -v 1 travis-$TRAVIS_JOB_ID dispatch-$TRAVIS_TAG-$TRAVIS_JOB_ID;
     $GOPATH/bin/scw _flush-cache;
     export VOLUME1 = $($GOPATH/bin/scw inspect -f '{{with index .Volumes "0"}}{{.Identifier}}{{end}}' server:travis-$TRAVIS_JOB_ID);
     export VOLUME2 = $($GOPATH/bin/scw inspect -f '{{with index .Volumes "1"}}{{.Identifier}}{{end}}' server:travis-$TRAVIS_JOB_ID);
+    $GOPATH/bin/scw stop travis-$TRAVIS_JOB_ID;
+    $GOPATH/bin/scw wait travis-$TRAVIS_JOB_ID;
+    $GOPATH/bin/scw commit -v 1 travis-$TRAVIS_JOB_ID dispatch-$TRAVIS_TAG-$TRAVIS_JOB_ID;
     $GOPATH/bin/scw rm travis-$TRAVIS_JOB_ID ;
     $GOPATH/bin/scw rmi $VOLUME1;
     $GOPATH/bin/scw rmi $VOLUME2;
