@@ -6,7 +6,7 @@ install:
 - go get -u github.com/scaleway/scaleway-cli/cmd/scw
 
 script:
-- if [[ $TRAVIS_TAG != "" ]] 
+- if [[ $TRAVIS_TAG != "" ]]; 
   then
     scw create --commercial-type=arm64-4gb -v 50GB --name="travis-$TRAVIS_JOB_ID" image-build &&\
     scw start -w travis-$TRAVIS_JOB_ID &&\
