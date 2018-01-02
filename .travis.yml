@@ -5,6 +5,7 @@ before_install:
 - chmod 600 $HOME/.scwrc
 install:
 - go get -u github.com/scaleway/scaleway-cli/cmd/scw
+- go install github.com/scaleway/scaleway-cli/cmd/scw
 
 script:
 - if [[ $TRAVIS_TAG == "" ]]; 
