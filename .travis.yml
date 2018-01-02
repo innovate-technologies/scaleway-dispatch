@@ -1,4 +1,23 @@
-language: bash
+language: go
+before_install:
+- openssl aes-256-cbc -K $encrypted_e2786c88889f_key -iv $encrypted_e2786c88889f_iv
+  -in .scwrc.enc -out ~\/.scwrc -d
+install:
+- go get -u github.com/scaleway/scaleway-cli/cmd/scw
 
 script:
-    - make travis
+- if [[ $TRAVIS_TAG != "" ]] 
+  then
+    scw create --commercial-type=arm64-4gb -v 50GB --name="travis-$TRAVIS_JOB_ID" image-build &&\
+    scw start -w travis-$TRAVIS_JOB_ID &&\
+    scw stop travis-$TRAVIS_JOB_ID &&\
+    stop wait server &&\
+    scw commit -v 1 travis-$TRAVIS_JOB_ID &&\
+    VOLUME1 = $(scw inspect -f '{{with index .Volumes "0"}}{{.Identifier}}{{end}}' travis-$TRAVIS_JOB_ID) &&\
+    VOLUME2 = $(scw inspect -f '{{with index .Volumes "0"}}{{.Identifier}}{{end}}' travis-$TRAVIS_JOB_ID) &&\
+    scw rm travis-$TRAVIS_JOB_ID  &&\
+    scw rmi $VOLUME1 &&\
+    scw rmi $VOLUME2 &&\
+  fi
+
+
