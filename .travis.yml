@@ -1,8 +1,14 @@
 language: go
+addons:
+  apt:
+    packages:
+        - sshpass
 before_install:
 - openssl aes-256-cbc -K $encrypted_e2786c88889f_key -iv $encrypted_e2786c88889f_iv
   -in .scwrc.enc -out $HOME/.scwrc -d
 - chmod 600 $HOME/.scwrc
+- export SSHPASS=$DEPLOY_PASS
+- mkdir $HOME/.ssh
 
 script:
 - go get -u -v github.com/scaleway/scaleway-cli/cmd/scw
@@ -15,6 +21,9 @@ script:
     $GOPATH/bin/scw _flush-cache;
     export VOLUME1=$($GOPATH/bin/scw inspect -f '{{with index .Volumes "0"}}{{.Identifier}}{{end}}' server:travis-$TRAVIS_JOB_ID);
     export VOLUME2=$($GOPATH/bin/scw inspect -f '{{with index .Volumes "1"}}{{.Identifier}}{{end}}' server:travis-$TRAVIS_JOB_ID);
+    export IP=$($GOPATH/bin/scw inspect -f '{{.PublicAddress.IP}}' server:travis-$TRAVIS_JOB_ID);
+    ssh-keyscan -H $IP >> $HOME/.ssh/known_hosts;
+    sshpass -e ssh root@$IP 'git clone https://github.com/innovate-technologies/scaleway-dispatch.git && cd scaleway-dispatch && make build HOST_ARCH=arm64 && make install_on_disk HOST_ARCH=arm64 DISK=/dev/vdb && docker images | awk \'{print $3}\' | xargs -n1 docker rmi -f'
     $GOPATH/bin/scw stop travis-$TRAVIS_JOB_ID;
     $GOPATH/bin/scw wait travis-$TRAVIS_JOB_ID;
     $GOPATH/bin/scw commit -v 1 travis-$TRAVIS_JOB_ID dispatch-$TRAVIS_TAG-$TRAVIS_JOB_ID;
