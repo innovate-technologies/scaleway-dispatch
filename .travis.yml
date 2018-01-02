@@ -7,7 +7,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_e2786c88889f_key -iv $encrypted_e2786c88889f_iv
   -in .scwrc.enc -out $HOME/.scwrc -d
 - chmod 600 $HOME/.scwrc
-- export SSHPASS=$DEPLOY_PASS
+- export SSHPASS=$IMAGE_PASS
 - mkdir $HOME/.ssh
 
 script:
