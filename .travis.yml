@@ -17,7 +17,7 @@ script:
     VOLUME2 = $(scw inspect -f '{{with index .Volumes "0"}}{{.Identifier}}{{end}}' travis-$TRAVIS_JOB_ID) &&\
     scw rm travis-$TRAVIS_JOB_ID  &&\
     scw rmi $VOLUME1 &&\
-    scw rmi $VOLUME2 
+    scw rmi $VOLUME2;
   fi
 
 
